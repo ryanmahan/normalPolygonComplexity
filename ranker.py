@@ -23,6 +23,7 @@ def PolygonPerimeter(corners):
 
     return dist
 
+#hardcoded path I used for congressional districts in 2016, change these next 2 lines if you want to change the input
 folders = os.listdir("cds/2016/")
 paths = list(map(lambda x: "cds/2016/" + x + "/shape.geojson", folders))
 districts = list()
@@ -32,6 +33,7 @@ for path in paths:
         data = json.load(f)
         coordinates = data["geometry"]["coordinates"]
         counter = 0
+        #reduce the list of lists down to just the list of coordinates
         while(type(coordinates[0][0]) != float):
             coordinates = list(reduce(lambda x, y: x + y, coordinates))
 
@@ -46,6 +48,8 @@ dist_sorted = sorted(districts, key=lambda k: k['score'])
 counter = 0
 for x in dist_sorted:
     counter += 1
+    #prints as Rank Name Score
+    #               Area Perimeter
     print(counter.__str__() + "  " + x['name'].__str__() + " " + x['score'].__str__())
     print("    " + x['area'].__str__() + " " + x['peri'].__str__())
 
